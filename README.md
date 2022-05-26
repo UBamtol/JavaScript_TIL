@@ -12,3 +12,4 @@
 5. 공부한 내용은 어떠한 것이라도 작성한다.
 
 ### JavaScript
+- [변수](JavaScript/변수/README.md)
