@@ -14,3 +14,4 @@
 ### JavaScript
 - [변수](JavaScript/변수/README.md)
 - [표현식과 문](JavaScript/표현식과%20문/README.md)
+- [데이터 타입](JavaScript/데이터%20타입/README.md)
