@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 폼에 입력한 데이터 서버로 전송하는 법(POST 요청)
 
 <form> 태그 기능 개발
@@ -50,3 +51,10 @@ POST 요청으로 서버에 데이터 전송방법
 
 1. body-parser 라이브러리 필요
 2. form 데이터의 경우 input에 name 쓰기(서버에서 input을 구분하기 위해서)
+=======
+### Node.js
+- [서버란?](서버란/README.md)
+- [Node.js란?](Node.js란/README.md)
+- [Node.js & Express 라이브러리 설치](Node.js%20%26%20Express%20라이브러리%20설치/README.md)
+- [Basic GET request](Basic%20GET%20request/README.md)
+>>>>>>> ee45f375f6eddb14e59cc595cf1111ecf81ed52d
