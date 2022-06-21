@@ -80,3 +80,58 @@
 ```
 
 그 후 서버에 코드를 추가해주면 삭제 기능이 완성된다.
+
+```jsx
+// 대충 이런 식이다.
+app.delete('/delete', function(req, res){
+  db,collection('post').deleteOne()...
+  res.send('삭제완료');
+});
+```
+
+Data에 내가 원하는 id를 넣고 싶을 때는 어떻게 할까
+
+```jsx
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script>
+  $.ajax({
+    method : 'DELETE',
+    url : '/delete',
+    data : {_id: 원하는 id 번호}
+  }).done(function(결과){
+    성공시 코드
+  }).fail(function(에러){
+    실패시 코드
+  });
+</script>
+```
+
+이런 식으로 넣으면 된다. 서버에는 이런 식으로 써주면 된다.
+
+```jsx
+app.delete('/delete', function (req, res) {
+  db,
+    collection('post').deleteOne(req.body, function (err, result) {
+      console.log('삭제완료');
+    });
+  res.send('삭제완료');
+});
+```
+
+deleteOne(삭제하고 싶은 데이터 이름, function(){}) 이렇게 쓰면 된다.
+
+Ajax요청시 data: {\_id: 원하는 id 번호} 라는 정보는 req.body에 담겨 온다.
+
+하지만 삭제가 안 된다. 이유는 ajax 요청 등으로 데이터를 서버에 전송할 때 숫자자료들이 가끔 문자화 되어 넘어오는 경우가 있다. 그래서 parsInt()로 감싸줘서 숫자로 형변환을 시켜줘야한다.
+
+```jsx
+app.delete('/delete', function (req, res) {
+  req.body._id = parseInt(req.body._id);
+  db,
+    collection('post').deleteOne(req.body, function (err, result) {
+      console.log('삭제완료');
+    });
+  res.send('삭제완료');
+});
+```
