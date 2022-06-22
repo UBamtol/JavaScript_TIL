@@ -135,3 +135,77 @@ app.delete('/delete', function (req, res) {
   res.send('삭제완료');
 });
 ```
+
+**버튼을 누를 때 ajax요청을 하고 원하는 데이터를 삭제하기**
+
+```jsx
+<ul class="list-group">
+  <% for (var i = 0; i < posts.length; i++){ %>
+  <li class="list-group-item">
+    <h4> 할일 제목 : <%= posts[i].제목 %> </h4>
+    <p> 할일 마감날짜 : <%= posts[i].날짜 %> </p>
+    <button class="delete">삭제</button>
+  </li>
+  <% } %>
+</ul>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script>
+  $('.delete').click(function(){
+    $.ajax({
+      method : 'DELETE',
+      url : '/delete',
+      data : { _id : 1 }
+    }).done(function(결과){
+      //AJAX 성공시 실행할 코드는 여기
+    })
+
+  });
+</script>
+```
+
+1. \<button> 태그에 ‘delete’라는 클래스를 추가하고
+2. \$.ajax 코드를 $(’delete’).click이라는 함수로 감싼다.
+
+이건 delete라는 클래스명을 가진 요소를 클릭하면 내부 $.ajax 코드를 실행하라는 의미이다.
+
+하지만 위에 코드를 실행하면 항상 id가 1인 게시물만 삭제한다.
+
+**원하는 글을 삭제하기**
+
+```jsx
+<ul class="list-group">
+  <% for (var i = 0; i < posts.length; i++){ %>
+  <li class="list-group-item">
+    <h4> 할일 제목 : <%= posts[i].todo %> </h4>
+    <p> 할일 마감날짜 : <%= posts[i].date %> </p>
+    <button class="delete" data-id="<%= posts[i]._id %>">삭제</button>
+  </li>
+  <% } %>
+</ul>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script>
+  $('.delete').click(function(){
+    $.ajax({
+      method : 'DELETE',
+      url : '/delete',
+      data : { _id : e.target.dataset.id }
+    }).done(function(결과){
+      //AJAX 성공시 실행할 코드
+    })
+  });
+</script>
+```
+
+1. \<button> 태그에 data-id라는 속성을 추가
+2. data: { } 부분을 변경
+
+위에 코드를 보면 \_id: 부분을 e.target.dataset.id라는 코드로 바꼈다.
+
+e.target은 지금 클릭한 요소를 뜻한다. 그럼 e.target.dataset.id는 무엇일까
+
+지금 클릭한 요소의 datasetd의 id 속성값을 의미한다.
+
+이젠 2번 글을 클릭하면 {\_id:2}가 되고 3번을 누르면{\_id:3}이 된다.
