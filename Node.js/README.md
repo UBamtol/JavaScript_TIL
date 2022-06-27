@@ -9,5 +9,5 @@
 - [MongoDB 세팅하기](MongoDB%20세팅하기/README.md)
 - [MongoDB collection & insert](MongoDB%20collection%20%26%20insert/README.md)
 - [HTML에 DB데이터 넣는 법](HTML에%20DB데이터%20넣는%20법/README.md)
-- [DB종류와 특징](DB종류와 특징/README.md)
+- [DB종류와 특징](DB종류와%20특징/README.md)
 - [게시물마다 번호를 달아 저장](게시물마다%20번호를%20달아%20저장/README.md)
