@@ -9,9 +9,9 @@
 
 생성된 HTML에는 최소한으로 필요한 자바스크립트 코드가 있다. 페이지가 브라우저에 의해 로드될 때, 그 자바스크립트 코드가 실행되고 페이지를 동적이게 만들어준다.(이 과정을 hydration이라고 부른다.)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/86aa900d-91ff-4740-87d4-200974714c14/Untitled.png)
+![image](https://user-images.githubusercontent.com/98325285/178017970-31c1e93e-edd4-4e94-bbb4-3ca52d040f27.png)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c8f2b3a8-3eae-4fb0-85b1-63fee753da6f/Untitled.png)
+![image](https://user-images.githubusercontent.com/98325285/178018075-7be4dc19-7834-4239-a1ad-dcfb781e8ef5.png)
 
 이는 Server-side Rendering의 특징이기도 하다.
 
@@ -23,15 +23,15 @@ Next.js는 pre-rendering을 **Static Genertaion**과 **Server-side Rendering**, 
 
 **Server-side Rendering**은 각 요청마다 HTML을 생성하는 pre-rendering방법이다.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/51d4c011-5565-4ee7-81a6-0115d432670b/Untitled.png)
+![image](https://user-images.githubusercontent.com/98325285/178018127-049f03dd-2e5a-49b7-9966-5cff41142617.png)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c3d22700-6d86-428e-a6f5-4a9cdebe2f2d/Untitled.png)
+![image](https://user-images.githubusercontent.com/98325285/178018184-c833f0ff-ceab-4c9f-9ba5-44a3279040ae.png)
 
 npm run dev나 yarn dev를 통해 개발을 하는 동안에는 Stati Generation 방식을 사용하고 있다해도 모든 페이지가 각 요청마다 pre-rendering된다.
 
 여기서 중요한 점은, Next.js는 각 페이지마다 우리에게 어떠한 pre-rendering방식을 사용할지 선택할 수 있게 해주는 것이다. 따라서 특정 페이지에는 Static Generation방식을, 나머지 페이지에는 Server-side Rendering방식을 사용할 수 있는 ‘hybrid’앱을 만들 수 있다.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6ad87ac9-64b1-4ba6-95b1-34684a7bd553/Untitled.png)
+![image](https://user-images.githubusercontent.com/98325285/178018271-04d66cc8-a353-4a42-9f2e-585f9e725f0c.png)
 
 ### Static Generation VS Server-side Rendering
 
