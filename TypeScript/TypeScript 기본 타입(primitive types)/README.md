@@ -1,4 +1,4 @@
-# TypeScript 기본 타입
+# TypeScript 기본 타입(primitive types)
 
 ## 변수 만들 때 타입 정하기
 
@@ -11,6 +11,7 @@
 ## 자주 쓰는 primitive type
 
 - string, number, boolean
+
   ```tsx
   let name: string = 'Yu';
   let age: number = '25';
@@ -28,6 +29,7 @@
     (age + 1) +
     ' years old';
   ```
+
 - null, undefined도 있지만 굳이 사용하지는 않는다.
 
 ## array or object 자료 안에도 타입 지정 가능
