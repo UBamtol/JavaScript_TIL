@@ -97,4 +97,6 @@ useReducer에선 일반적으로 default: 부분에 throw new Error(’Unhandled
 
 ## 구독(Subscribe)
 
-구독 또한 스토어의 내장 함수 중 하나다. subscribe 함수는 함수의 형태의 값을 파라미터로 받아온다. subscribe 함수에 특정 함수를 전달해주면 액션이 디스패치 되었을 때마다 전달해준 함수가 호출된다.
+구독 또한 스토어의 내장 함수 중 하나다. subscribe 함수는 함수의 형태의 값을 파라미터로 받아온다. **subscribe 함수에 특정 함수를 전달해주면 액션이 디스패치 되었을 때마다 전달해준 함수가 호출**된다.
+
+리액트에서 리덕스를 사용하게 될 때 보통 이 함수를 직접 사용하는 일은 별로 없다. 그 대신 react-redux라는 라이브러리에서 제공하는 connect 함수 또는 useSelector Hook을 사용하여 리덕스 스토어의 상태에 구독한다.
