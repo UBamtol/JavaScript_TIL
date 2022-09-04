@@ -290,3 +290,171 @@ export default function posts(state = initialState, action) {
 ```
 
 이제 반복되는 코드가 많이 줄었지만 리듀서쪽에서는 여전히 반복되는 코드들이 많다. 이것도 원한다면 리팩토링 할 수 있다.
+
+asyncUtils.js에서 handleAsyncActions라는 함수를 다음과 같이 작성했다.
+
+### lib/asyncUtils.js
+
+```jsx
+// Promise에 기반한 Thunk를 만들어주는 함수이다.
+export const createPromiseThunk = (type, promiseCreator) => {
+  const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+
+  // 이 함수는 promiseCreator가 단 하나의 파라미터만 받는다는 전제하에 작성되었다.
+  // 만약 여러 종류의 파라미터를 전달해야하는 상황에서는 객체 타입의 파라미터를 받아오도록 하면 된다.
+  // 예: writeComment({ postId: 1, text: '댓글 내용' });
+  return (param) => async (dispatch) => {
+    // 요청 시작
+    dispatch({ type, param });
+    try {
+      // 결과물의 이름을 payload 라는 이름으로 통일시킨다.
+      const payload = await promiseCreator(param);
+      dispatch({ type: SUCCESS, payload }); // 성공
+    } catch (e) {
+      dispatch({ type: ERROR, payload: e, error: true }); // 실패
+    }
+  };
+};
+
+// 리듀서에서 사용 할 수 있는 여러 유틸 함수들이다.
+export const reducerUtils = {
+  // 초기 상태. 초기 data 값은 기본적으로 null 이지만
+  // 바꿀 수도 있다.
+  initial: (initialData = null) => ({
+    loading: false,
+    data: initialData,
+    error: null,
+  }),
+  // 로딩중 상태. prevState의 경우엔 기본값은 null 이지만
+  // 따로 값을 지정하면 null 로 바꾸지 않고 다른 값을 유지시킬 수 있다.
+  loading: (prevState = null) => ({
+    loading: true,
+    data: prevState,
+    error: null,
+  }),
+  // 성공 상태
+  success: (payload) => ({
+    loading: false,
+    data: payload,
+    error: null,
+  }),
+  // 실패 상태
+  error: (error) => ({
+    loading: false,
+    data: null,
+    error: error,
+  }),
+};
+
+// 비동기 관련 액션들을 처리하는 리듀서를 만들어준다.
+// type 은 액션의 타입, key 는 상태의 key (예: posts, post) 이다.
+export const handleAsyncActions = (type, key) => {
+  const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+  return (state, action) => {
+    switch (action.type) {
+      case type:
+        return {
+          ...state,
+          [key]: reducerUtils.loading(),
+        };
+      case SUCCESS:
+        return {
+          ...state,
+          [key]: reducerUtils.success(action.payload),
+        };
+      case ERROR:
+        return {
+          ...state,
+          [key]: reducerUtils.error(action.payload),
+        };
+      default:
+        return state;
+    }
+  };
+};
+```
+
+handleAsyncActions 함수를 만들었으면 posts리듀서를 다음과 같이 리팩토링 할 수 있다.
+
+### modules/post.js
+
+```jsx
+import * as postsAPI from '../api/posts'; // api/posts 안의 함수 모두 불러오기
+import {
+  createPromiseThunk,
+  reducerUtils,
+  handleAsyncActions,
+} from '../lib/asyncUtils';
+
+/* 액션 타입 */
+
+// 포스트 여러개 조회하기
+const GET_POSTS = 'GET_POSTS'; // 요청 시작
+const GET_POSTS_SUCCESS = 'GET_POSTS_SUCCESS'; // 요청 성공
+const GET_POSTS_ERROR = 'GET_POSTS_ERROR'; // 요청 실패
+
+// 포스트 하나 조회하기
+const GET_POST = 'GET_POST';
+const GET_POST_SUCCESS = 'GET_POST_SUCCESS';
+const GET_POST_ERROR = 'GET_POST_ERROR';
+
+// 아주 쉽게 thunk 함수를 만들 수 있게 되었다.
+export const getPosts = createPromiseThunk(GET_POSTS, postsAPI.getPosts);
+export const getPost = createPromiseThunk(GET_POST, postsAPI.getPostById);
+
+// initialState 쪽도 반복되는 코드를 initial() 함수를 사용해서 리팩토링 했다.
+const initialState = {
+  posts: reducerUtils.initial(),
+  post: reducerUtils.initial(),
+};
+
+export default function posts(state = initialState, action) {
+  switch (action.type) {
+    case GET_POSTS:
+    case GET_POSTS_SUCCESS:
+    case GET_POSTS_ERROR:
+      return handleAsyncActions(GET_POSTS, 'posts')(state, action);
+    case GET_POST:
+    case GET_POST_SUCCESS:
+    case GET_POST_ERROR:
+      return handleAsyncActions(GET_POST, 'post')(state, action);
+    default:
+      return state;
+  }
+}
+```
+
+아래 코드는
+
+```jsx
+case GET_POSTS:
+case GET_POSTS_SUCCESS:
+case GET_POSTS_ERROR:
+  return handleAsyncActions(GET_POSTS, 'posts')(state, action);
+```
+
+이렇게 표현할 수도 있다.
+
+```jsx
+case GET_POSTS:
+case GET_POSTS_SUCCESS:
+case GET_POSTS_ERROR:
+  const postsReducer = handleAsyncActions(GET_POSTS, 'posts');
+  return postsReducer(state, action);
+```
+
+마음에 드는 방식으로 작성하면 된다.
+
+리팩토링이 끝났으면 이 모듈을 루트 리듀서에 등록하면 된다.
+
+### modules/index.js
+
+```jsx
+import { combineReducers } from 'redux';
+import counter from './counter';
+import posts from './posts';
+
+const rootReducer = combineReducers({ counter, posts });
+
+export default rootReducer;
+```
