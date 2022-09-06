@@ -458,3 +458,68 @@ const rootReducer = combineReducers({ counter, posts });
 
 export default rootReducer;
 ```
+
+## 포스트 목록 구현하기
+
+포스트 목록을 보여줄 프리젠테이셔널 컴포넌트를 만들어보자.
+
+### components/PostList.js
+
+```jsx
+import React from 'react';
+
+function PostList({ posts }) {
+  return (
+    <ul>
+      {posts.map((post) => (
+        <li key={post.id}>{post.title}</li>
+      ))}
+    </ul>
+  );
+}
+
+export default PostList;
+```
+
+이제 PostList를 위한 컨테이너 컴포넌트인 PostListContainer를 만들어보자.
+
+### containers/PostListContainer.js
+
+```jsx
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import PostList from '../components/PostList';
+import { getPosts } from '../modules/posts';
+
+function PostListContainer() {
+  const { data, loading, error } = useSelector((state) => state.posts.posts);
+  const dispatch = useDispatch();
+
+  // 컴포넌트 마운트 후 포스트 목록 요청
+  useEffect(() => {
+    dispatch(getPosts());
+  }, [dispatch]);
+
+  if (loading) return <div>로딩중...</div>;
+  if (error) return <div>에러 발생!</div>;
+  if (!data) return null;
+  return <PostList posts={data} />;
+}
+
+export default PostListContainer;
+```
+
+이제 이 컴포넌트를 App에서 렌더링을 해보자
+
+### App.js
+
+```jsx
+import React from 'react';
+import PostListContainer from './containers/PostListContainer';
+
+function App() {
+  return <PostListContainer />;
+}
+
+export default App;
+```
