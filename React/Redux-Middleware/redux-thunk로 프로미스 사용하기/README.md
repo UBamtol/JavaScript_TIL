@@ -523,3 +523,102 @@ function App() {
 
 export default App;
 ```
+
+## 리액트 라우터 적용하기
+
+리액트 라우터를 프로젝트에 적용해서 특정 포스터를 읽는 기능을 구현해보자
+
+리액트 라우터를 설치한다.
+
+```bash
+$ yarn add react-router-dom
+```
+
+### index.js
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import rootReducer from './modules';
+import logger from 'redux-logger';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import ReduxThunk from 'redux-thunk';
+import { BrowserRouter } from 'react-router-dom';
+
+const store = createStore(
+  rootReducer,
+  // logger 를 사용하는 경우, logger가 가장 마지막에 와야한다.
+  composeWithDevTools(applyMiddleware(ReduxThunk, logger))
+); // 여러개의 미들웨어를 적용 할 수 있다.
+
+ReactDOM.render(
+  <BrowserRouter>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </BrowserRouter>,
+  document.getElementById('root')
+);
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.unregister();
+```
+
+### 포스트 조회하기
+
+포스트 하나를 조회하는 기능을 구현해보자. 우선 프리젠테이셔널 컴포넌트 Post.js를 만들어주자.
+
+### components/Post.js
+
+```jsx
+import React from 'react';
+
+function Post({ post }) {
+  const { title, body } = post;
+  return (
+    <div>
+      <h1>{title}</h1>
+      <p>{body}</p>
+    </div>
+  );
+}
+
+export default Post;
+```
+
+이제 PostContainer 컴포넌트도 만들어준다.
+
+### containers/PostContainer.js
+
+```jsx
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getPost } from '../modules/posts';
+import Post from '../components/Post';
+
+function PostContainer({ postId }) {
+  const { data, loading, error } = useSelector((state) => state.posts.post);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPost(postId));
+  }, [postId, dispatch]);
+
+  if (loading) return <div>로딩중...</div>;
+  if (error) return <div>에러 발생!</div>;
+  if (!data) return null;
+
+  return <Post post={data} />;
+}
+
+export default PostContainer;
+```
+
+이 컴포넌트는 postId값을 props로 받아온다. 해당 값은 라우트의 URL 파라미터에서 읽어온다.
