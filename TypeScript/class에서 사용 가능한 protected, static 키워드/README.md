@@ -80,3 +80,15 @@ User.x; //가능
 
 - 함수도 static 붙이기 가능
 - extends로 class를 복사할 경우 static 붙은 것들도 따라온다.
+
+static은 private, protected, public 키워드와 동시 사용 가능하다.
+
+```tsx
+class User {
+  private static x = 10;
+}
+```
+
+**static은 언제 사용할까?**
+
+주로 class 안에 간단한 메모를 하거나, 기본 설정값을 입력하거나 class로부터 생성되는 object가 사용할 필요가 없는 변수들을 만들어놓고 싶을 때 사용한다.
