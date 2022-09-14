@@ -173,7 +173,7 @@ console.log(x); // 'Hello'
 
 할당 연산자는 우항에 있는 피연산자의 평가 결과를 좌항에 있는 변수에 할당한다. 할당 연산자는 좌항의 변수에 값을 할당하므로 변수 값이 변하는 부수 효과가 있다.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/70c3b15a-3d7f-4e33-abe6-21d8541e56e1/Untitled.png)
+![image](https://user-images.githubusercontent.com/98325285/190184385-e8d0f428-bcd4-4ca8-afaa-d26b032d475a.png)
 
 ```jsx
 var x;
@@ -233,7 +233,7 @@ console.log(a, b, c); // 0 0 0
 
 동등 비교 연산자와 일치 비교 연산자는 좌항과 우항의 피연산자가 같은 값으로 평가되는지 비교해 불리언 값을 반환한다. 하지만 **비교하는 엄격성의 정도가 다르다.** **동등 연산자는 느슨한 비교**를 하지만 **일치 비교 연산자는 엄격한 비교**를 한다.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/29999e64-fce2-4572-afa7-3db8d9aa3652/Untitled.png)
+![image](https://user-images.githubusercontent.com/98325285/190184469-8061a1de-3444-414e-b723-833066f1d3d3.png)
 
 전에도 나왔듯 문자열 연결 연산자에서는 개발자의 의도와는 상관없이 자바스크립트 엔진에 의해 암묵적으로 타입이 자동 변환되기도 한다. 이를 **암묵적 타입 변환**이라 한다.
 
@@ -288,7 +288,7 @@ Number.isNaN(1 + undefined); // true
 
 대소 관계 비교 연산자는 피연산자의 크기를 비교하여 불리언 값을 반환한다.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/528dfba5-2d5f-4e1b-99f0-a266013aef4f/Untitled.png)
+![image](https://user-images.githubusercontent.com/98325285/190184587-0ac6ea1b-8456-43f7-ac71-0c49289b9ce3.png)
 
 ```jsx
 // 대소 관계 비교
