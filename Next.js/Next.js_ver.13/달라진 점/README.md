@@ -2,7 +2,7 @@
 
 > [Next.js 공식문서](https://nextjs.org/)를 참고하여 작성함
 
-- [app Directory (beta)](https://www.notion.so/871785774fb94088a8f6cf26ecc0941c)
+- [app Directory (beta)](#chapter-1)
   - Layouts
   - React Server Components
   - Streaming
@@ -17,7 +17,7 @@ Next.js 13 업데이트
 npm i next@latest react@latest react-dom@latest eslint-config-next@latest
 ```
 
-## New app Directory (beta)
+## New app Directory (beta) <a id="chapter-1" />
 
 ![https://nextjs.org/_next/image?url=%2Fstatic%2Fblog%2Flayouts-rfc%2Fapp-folder.png&w=3840&q=75](https://nextjs.org/_next/image?url=%2Fstatic%2Fblog%2Flayouts-rfc%2Fapp-folder.png&w=3840&q=75)
 
