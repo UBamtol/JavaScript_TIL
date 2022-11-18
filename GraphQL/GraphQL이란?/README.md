@@ -21,11 +21,25 @@ SELECT lastName, firstName FROM employees;
 ```graphql
 # gql
 {
-	hero {
-		name
-		friends {
-			name
-		}
-	}
+  hero {
+    name
+    friends {
+      name
+    }
+  }
 }
 ```
+
+## RestAPI와의 차이
+
+RestAPI는 URL, METHOD 등을 조합하기 때문에 다양한 end point가 존재한다. 하지만, gql은 단 하나의 end point만이 존재한다. 또한 gql API에서는 불러오는 데이터의 종류를 쿼리 조합을 통해서 결정한다. RestAPI는 각 end point마다 데이터베이스 sql쿼리가 달라지지만, gql API에서는 gql 스키마 타입마다 데이터 베이스 sql쿼리가 달라진다.
+
+![https://tech.kakao.com/files/graphql-stack.png](https://tech.kakao.com/files/graphql-stack.png)
+
+_HTTP와 gql의 기술 스택 비교_
+
+![https://tech.kakao.com/files/graphql-mobile-api.png](https://tech.kakao.com/files/graphql-mobile-api.png)
+
+Rest API와 GraphQL API의 사용
+
+위 그림처럼 gql API를 사용하면 여러번 네트워크 호출할 필요 없이 단 한번의 호출로 처리할 수 있다.
