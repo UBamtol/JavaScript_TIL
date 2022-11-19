@@ -43,3 +43,25 @@ _HTTP와 gql의 기술 스택 비교_
 Rest API와 GraphQL API의 사용
 
 위 그림처럼 gql API를 사용하면 여러번 네트워크 호출할 필요 없이 단 한번의 호출로 처리할 수 있다.
+
+## GraphQL의 구조
+
+### query & mutation
+
+GraphQL에서 특정 필드를 요청하는 것은 매우 간단하다.
+
+![https://tech.kakao.com/files/graphql-example.png](https://tech.kakao.com/files/graphql-example.png)
+
+쿼리와 결과가 거의 동일한 형태이다.
+
+gql에서는 쿼리와 뮤테이션을 나누어서 사용하는데 사실 이 두개는 별 차이가 없다.
+
+쿼리는 데이터를 읽어오는데 사용하고 뮤테이션은 데이터를 입력, 수정, 삭제할 때 사용한다는 규약만이 존재한다.
+
+위에서는 query 키워드와 query 이름을 생략한 단축문을 사용했다. 하지만 실제 애플리케이션에서는 헷갈리지 않게 작업타임, 작업이름을 정해주는 것이 좋다.
+
+<img width="728" alt="image" src="https://user-images.githubusercontent.com/98325285/202834340-f16b76bf-0d80-4b3e-a6d2-6b3c9e1188bd.png">
+
+작업 타입은 쿼리(query), 뮤테이션(mutation), 구독(subscription)이 될 수 있고, 어떤 작업의 타입인지를 기술한다.
+
+작업 이름은 의미있고 명시적으로 지어주는 것이 좋다. 디버깅이나 서버 측에서 로깅하는데 훨씬 유용하기 때문이다. 만약 네트워크 로그나 GraphQL 서버에 문제가 발생했을 경우 내용을 확인하는 대신 코드에서 쿼리의 작업이름을 찾아내는 것이 더욱 쉽다.
