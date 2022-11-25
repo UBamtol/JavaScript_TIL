@@ -17,3 +17,15 @@ GraphQL 쿼리의 형태는 요청 결과와 거의 일치하기 때문에 서�
 ## 타입 언어
 
 GraphQL 서비스는 어떤 언어로든 작성할 수 있다.
+
+## 객체 타입과 필드
+
+GraphQL 스키마의 가장 기본적인 구성 요소는 객체 타입이다. 객체 타입은 서비스에서 가져올 수 있는 객체의 종류와 그 객체의 필드를 나타낸다. GraphQL 스키마 언어에서는 다음과 같이 표현할 수 있다.
+
+<img width="695" alt="image" src="https://user-images.githubusercontent.com/98325285/204010156-bf97af53-ed2a-4601-9881-f0e92317c0d2.png">
+
+- `Character`는 GraphQL 객체 타입이다. 즉, 필드가 있는 타입이라는 뜻이다. 스키마의 대부분의 타입은 객체 타입이다.
+- `name`과 `appearIn`은 `Character` 타입의 필드이다. 즉 `name`과 `appearIn`은 GraphQL 쿼리의 `Character` 타입 어디서든 사용할 수 있는 필드이다.
+- `String`은 내장된 스칼라 타입 중 하나이다. 이는 스칼라 객체로 해석되는 타입이며 쿼리에서 하위 선택을 할 수 없다.
+- `String`!은 필드가 **non-nullable**임을 의미한다. 즉, 이 필드를 쿼리할 때 GraphQL 서비스가 항상 값을 반환해야한다는 것을 의미한다. 타입 언어에서는 이것을 **느낌표(!)**로 나타낸다.
+- `[Episode!]!`는 `Episode` 객체의 배열을 나타낸다. 또한 non-nullable이기 때문에 `appearIn` 필드를 쿼리할 때 항상(0개 이상의 아이템을 가진) 배열을 기대할 수 있다.
