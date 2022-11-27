@@ -80,7 +80,7 @@ GraphQL에서는 스칼라 타입들이 기본적으로 제공된다.
 
 <img width="695" alt="image" src="https://user-images.githubusercontent.com/98325285/204095046-6e06c90d-99ca-4e49-8c19-b37042ddedc8.png">
 
-해당 타입을  직렬화, 역 직렬화, 유효성 검사하는 방법을 구현할 수 있다.
+해당 타입을 직렬화, 역 직렬화, 유효성 검사하는 방법을 구현할 수 있다.
 
 ## 열거형 타입
 
@@ -92,3 +92,35 @@ Enums 라고도 하는 열거형 타입은 특정 값들로 제한되는 특별�
 <img width="695" alt="image" src="https://user-images.githubusercontent.com/98325285/204095057-e21b6cd4-6591-40c4-885e-ac532f69ce03.png">
 
 즉, 스키마에서 `Episode` 타입을 사용할 때마다 정확히 `NEWHOPE`, `EMPIRE`, `JEDI` 중 하나일 것이라는 뜻이다.
+
+## 리스트와 Non-Null
+
+객체 타입, 스칼라 타입, 열거형 타입은 GraphQL에서 정의할 수 있는 유일한 타입이다. 하지만 스키마의 다른 부분이나 쿼리 변수 선언에서 타입을 사용하면 해당 값의 유효성 검사를 할 수 있는 타입 수정자(type modifiers)를 적용할 수 있다.
+
+<img width="695" alt="image" src="https://user-images.githubusercontent.com/98325285/204128251-9076ac62-a5da-488b-bc67-f1676445f743.png">
+
+`String` 타입을 사용하고 타입 뒤에 느낌표를 추가하여 Non-Null로 표시한다. 즉, 서버는 항상 이 필드에 대해 null이 아닌 값을 반환할 것을 기대하며, null값이 발생되면 GraphQL 실행 오류가 발생하고, 클라이언트에게 무언가 잘못되었음을 알린다.
+
+Non-Null 타입 수정자는 필드에 대한 인자를 정의할 때에도 사용할 수 있다. 이는 GraphQL 서버가 문자열이나 변수 상관없이 null값이 해당 인자로 전달되는 경우, 유효성 검사 오류를 반환하게 한다.
+
+<img width="695" alt="image" src="https://user-images.githubusercontent.com/98325285/204128594-0c6d4e97-69e4-4699-a80d-e86f9a2873ba.png">
+
+리스트도 비슷한 방식으로 동작한다. 타입 수정자를 사용하여 타입을 `List`로 표시할 수도 있다. 이 필드는 해당 타입의 배열을 반환한다. 스키마 언어에서, 타입을 대괄호 `[]` 로 묶는 것으로 표현된다. 유효성 검사 단계에서 해당 값에 대한 배열이 필요한 인자에 대해서도 동일하게 작동한다.
+
+Non-Null 및 List 수정자를 결합할 수도 있다. 예를 들면, Null이 아닌 문자열 리스트를 가질 수 있다.
+
+<img width="695" alt="image" src="https://user-images.githubusercontent.com/98325285/204128604-70a669fd-69db-48bf-bdd0-0613faebd3b2.png">
+
+즉, List 자체는 null일 수 있지만, null을 가질 수 없다. 예를 들면,
+
+<img width="695" alt="image" src="https://user-images.githubusercontent.com/98325285/204128619-2bad1b04-523c-47f0-b348-256418638b11.png">
+
+null이 아닌 문자열 리스트를 정의한다고 가정하면,
+
+<img width="695" alt="image" src="https://user-images.githubusercontent.com/98325285/204128629-6e523e8b-5486-4beb-a1f2-14e48eaf9665.png">
+
+목록 자체는 null일 수 없지만 null값을 포함할 수 있다.
+
+<img width="695" alt="image" src="https://user-images.githubusercontent.com/98325285/204128644-c31534d4-19ca-4c47-9150-42d02b922003.png">
+
+필요에 따라 여러개의 Null, List 수정자를 중첩할 수 있다.
