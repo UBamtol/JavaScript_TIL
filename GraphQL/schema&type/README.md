@@ -124,3 +124,15 @@ null이 아닌 문자열 리스트를 정의한다고 가정하면,
 <img width="695" alt="image" src="https://user-images.githubusercontent.com/98325285/204128644-c31534d4-19ca-4c47-9150-42d02b922003.png">
 
 필요에 따라 여러개의 Null, List 수정자를 중첩할 수 있다.
+
+## 유니온 타입
+
+유니온 타입은 인터페이스와 매우 유사하지만, 타입 간에 공통 필드를 특정하지 않는다.
+
+<img width="695" alt="image" src="https://user-images.githubusercontent.com/98325285/204247618-2ac05c84-dd23-458a-834d-65900a3c5798.png">
+
+스키마에서 `SearchResult` 타입을 반환할 때마다 `Human`, `Droid`, `Starship`을 얻을 수 있다. 유니온 타입의 멤버는 구체적인 객체 타입이어야 한다. 인터페이스나 유니온 타입에서 다른 유니온 타입을 사용할 수 없다.
+
+이 경우, `SearchResult` 유니언 타입을 반환하는 필드를 쿼리하면, 어떤 필드라도 쿼리할 수 있는 조건부 프래그먼트를 사용해야 한다.
+
+<img width="695" alt="image" src="https://user-images.githubusercontent.com/98325285/204247966-72e5827e-0f70-4b56-b08c-7e978a758df9.png">
