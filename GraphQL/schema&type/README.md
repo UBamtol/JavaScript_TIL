@@ -136,3 +136,15 @@ null이 아닌 문자열 리스트를 정의한다고 가정하면,
 이 경우, `SearchResult` 유니언 타입을 반환하는 필드를 쿼리하면, 어떤 필드라도 쿼리할 수 있는 조건부 프래그먼트를 사용해야 한다.
 
 <img width="695" alt="image" src="https://user-images.githubusercontent.com/98325285/204247966-72e5827e-0f70-4b56-b08c-7e978a758df9.png">
+
+## 입력 타입
+
+지금까지는 열거형이나 문자열 같은 스칼라 값을 인자로 필드에 전달하는 방법을 알아봤다. 하지만 복잡한 객체도 쉽게 전달할 수 있다. 이는 뮤테이션에서 특히 유용하다. 뮤테이션은 생성될 전체 객체를 전달하고자 할 수 있다. GraphQL 스키마 언어에서 입력 타입은 일반 객체 타입과 정확히 같지만, `type` 대신 `input`을 사용한다.
+
+<img width="695" alt="image" src="https://user-images.githubusercontent.com/98325285/204248508-1682425f-95a9-4463-b009-cb74ddf16c45.png">
+
+다음은 뮤테이션에서 입력 객체 타입을 사용하는 방법이다.
+
+<img width="982" alt="image" src="https://user-images.githubusercontent.com/98325285/204249769-27ad6ee6-ab3f-40d2-ab22-805bd70e5c46.png">
+
+입력 객체 타입의 입력란은 입력 객체 타입을 참조할 수 있지만, 입력 및 출력 타입을 스키마에 혼합할 수 없다. 또한 필드에 인자를 가질 수 없다.
