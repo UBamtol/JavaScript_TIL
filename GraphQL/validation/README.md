@@ -26,3 +26,9 @@
 마찬가지로 필드가 스칼라인 경우에는 추가적인 필드를 요청하는 것은 의미가 없기 때문에 쿼리가 유효하지 않다.
 
 <img width="867" alt="image" src="https://user-images.githubusercontent.com/98325285/205447046-bf644a0b-063b-4808-bdc5-6053a3752f1a.png">
+쿼리는 해당 타입의 필드만 쿼리할 수 있다. `Character`를 반환하는 `hero`를 쿼리할 때 `Character`에 있는 필드만 쿼리할 수 있다. 만약 필드에 없는 타입을 쿼리할 경우 오류가 발생한다.
+
+<img width="867" alt="image" src="https://user-images.githubusercontent.com/98325285/205489097-ee3adfb2-56e6-447e-a293-271576923c26.png">
+`Character`가 `Droid`인 경우에만 `primaryFunction`을 가져오고 그 외엔 그 필드를 무시하는 방법이 있어야 한다. 이러한 경우 프래그먼트를 사용하여 이를 해결할 수 있다. `Droid`에 정의된 프래그먼트를 선언하여, 정의된 곳에서만 `pirmaryFunction`을 쿼리한다.
+
+<img width="867" alt="image" src="https://user-images.githubusercontent.com/98325285/205489122-452d6f7f-75a1-4b16-b499-a5d818188854.png">
