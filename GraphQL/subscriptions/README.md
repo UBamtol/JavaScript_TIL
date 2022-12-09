@@ -43,3 +43,20 @@ const COMMENTS_SUBSCRIPTION = gql`
 ```
 
 Apollo 클라이언트는 onCommentAdded 구독을 실행할 때 GraphQL 서버에 대한 연결을 설정하고 응답 데이터를 수신한다. 쿼리와 달리 서버가 즉시 처리하고 응답을 반환할 것이라는 기대는 없다. 대신, 백엔드에서 특정 이벤트가 발생할 때만 서버가 클라이언트에 데이터를 푸시한다.
+
+GraphQL 서버가 구독 클라이언트에 데이터를 푸시할 때마다 해당 데이터는 쿼리와 마찬가지로 실행된 구독의 구조를 따라야 한다.
+
+```graphql
+{
+  "data": {
+    "commentAdded": {
+      "id": "123",
+      "content": "What a thoughtful and well written post!"
+    }
+  }
+}
+```
+
+## 전송 설정
+
+구독은 일반적으로 지속적인 연결을 유지하기 때문에 Apollo 클라이언트가 쿼리 및 변형에 사용하는 기본 HTTP 전송을 사용하면 안 된다. `graphql-ws` 대신 Apollo 클라이언트 구독은 라이브러리를 통해 WebSocket을 통해 가장 일반적으로 통신한다.
