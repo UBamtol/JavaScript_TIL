@@ -60,3 +60,32 @@ GraphQL 서버가 구독 클라이언트에 데이터를 푸시할 때마다 해
 ## 전송 설정
 
 구독은 일반적으로 지속적인 연결을 유지하기 때문에 Apollo 클라이언트가 쿼리 및 변형에 사용하는 기본 HTTP 전송을 사용하면 안 된다. `graphql-ws` 대신 Apollo 클라이언트 구독은 라이브러리를 통해 WebSocket을 통해 가장 일반적으로 통신한다.
+
+### 1. 필요한 라이브러리 설치
+
+Apollo link는 apoll 클라이언트의 네트워크 통신을 사용자 지정하는데 도움을 주는 라이브러리이다. 이를 사용하여 작업을 수정하고 적절한 대상으로 라우팅하는 링크 체인을 정의할 수 있다.
+
+```bash
+npm install graphql-ws
+```
+
+### 2. 초기화 GraphQLWsLink
+
+```tsx
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
+
+const wsLink = new GraphQLWsLink(
+  createClient({
+    url: 'ws://localhost:4000/subscriptions',
+  })
+);
+```
+
+url 옵션 값을 GraphQL 서버의 구독별 WebSocket end point로 바꾼다.
+
+### 3. 동작별 분할 통신
+
+Apollo 클라이언트는 모든 작업 유형을 실행하는데 사용할 수 있지만 대부분의 GraphQlWsLink의 경우 쿼리 및 뮤테이션에 http를 계속 사용해야한다고 한다.
+
+이는 쿼리 및 뮤테이션에 상태 저장 또는 오래 지속되는 연결이 필요하지 않기 때문에 WebSocket 연결이 아직 없는 경우 http를 보다 효율적이고 확장 가능하게 만들기 때문이다.
