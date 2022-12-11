@@ -89,3 +89,43 @@ url 옵션 값을 GraphQL 서버의 구독별 WebSocket end point로 바꾼다.
 Apollo 클라이언트는 모든 작업 유형을 실행하는데 사용할 수 있지만 대부분의 GraphQlWsLink의 경우 쿼리 및 뮤테이션에 http를 계속 사용해야한다고 한다.
 
 이는 쿼리 및 뮤테이션에 상태 저장 또는 오래 지속되는 연결이 필요하지 않기 때문에 WebSocket 연결이 아직 없는 경우 http를 보다 효율적이고 확장 가능하게 만들기 때문이다.
+
+이를 지원하기 위해 @apollo/client 라이브러리는 Boolean 검사 결과에 따라 두개의 서로 다른 링크 중 하나를 사용할 수 있는 분할 기능을 제공한다.
+
+다음 예제는 GraphQLWsLink와 httpLink를 모두 초기화하여 이전 예제에 추가한다. 그 다음, 분할 함수를 사용하여 실행 중인 작업 유형에 따라 두 개의 링크를 하나의 링크로 결합한다.
+
+```jsx
+import { split, HttpLink } from '@apollo/client';
+import { getMainDefinition } from '@apollo/client/utilities';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
+
+const httpLink = new HttpLink({
+  uri: 'http://localhost:4000/graphql',
+});
+
+const wsLink = new GraphQLWsLink(
+  createClient({
+    url: 'ws://localhost:4000/subscriptions',
+  })
+);
+
+// 분할 함수는 세 가지 매개 변수를 사용한다:
+//
+// * A function that's// * 실행할 각 작업에 대해 호출되는 함수이다.
+// * 함수가 "truthy" 값을 반환하는 경우 작업에 사용할 링크
+// * 함수가 "falsey" 값을 반환하는 경우 작업에 사용할 링크
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    );
+  },
+  wsLink,
+  httpLink
+);
+```
+
+이 논리를 사용하여 쿼리 및 뮤테이션은 http를 정상적으로 사용하고 구독은 webSocket을 사용한다.
